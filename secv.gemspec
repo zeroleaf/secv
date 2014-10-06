@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["zeroleaf021@gmail.com"]
   spec.summary       = %q{Translator Console Version}
   spec.description   = %q{More in future.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/zeroleaf/secv"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
