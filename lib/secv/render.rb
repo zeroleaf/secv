@@ -8,29 +8,37 @@ module Secv
 
     def render_word(word)
       puts word.identify.underline
-      puts render_pronounce word.pronounce
+      if word.pronounce && !word.pronounce.empty?
+        puts render_pronounce word.pronounce
+      end
 
-      puts indent '单词释义'.cyan.bold
-      puts render_trans! word.trans
-      puts ''
+      if word.trans && !word.trans.empty?
+        puts indent '单词释义'.cyan.bold
+        puts render_trans! word.trans
+        puts ''
+      end
 
-      puts indent '网络释义'.cyan.bold
-      puts render_extra_trans word.extra_trans
-      puts ''
+      if word.extra_trans && !word.extra_trans.empty?
+        puts indent '网络释义'.cyan.bold
+        puts render_extra_trans word.extra_trans
+        puts ''
+      end
 
-      puts indent '常用词组'.cyan.bold
-      puts render_word_groups! word.word_groups
-      puts ''
+      if word.word_groups && !word.word_groups.empty?
+        puts indent '常用词组'.cyan.bold
+        puts render_word_groups! word.word_groups
+        puts ''
+      end
 
-      puts indent '其它'.cyan.bold
-      puts render_additional word.additional
+      if word.additional && !word.additional.empty?
+        puts indent '其它'.cyan.bold
+        puts render_additional word.additional
+        puts ''
+      end
     end
 
     def render_eng!(str, colors, limit = nil)
-      pattern_replace!(str, /(\w+)\W/, limit) { |mat|
-        # return mat.send colors unless colors.respond_to? :each
-        # colors.each { |color| mat.send color }
-        # mat
+      pattern_replace!(str, /\w+/, limit) { |mat|
         result = mat
         if colors.respond_to? :each
           colors.each { |color| result = result.send color }
@@ -42,14 +50,15 @@ module Secv
     end
 
     def pattern_replace!(str, regex, limit = nil, &blk)
-      to_search = str
+      to_search = str.dup
+      str.clear
       while regex =~ to_search do
-        # @TODO if $1 contain regex meta character, then need to escape it.
-        str.sub! /#{$1}/, blk.call($1)
-        break if limit and (limit -= 1) == 0
+        break if limit and (limit -= 1) < 0
+        str << $` if $`
+        str << blk.call($&)
         to_search = $'
       end
-      str
+      str << to_search if to_search
     end
 
     private
