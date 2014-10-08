@@ -21,7 +21,7 @@ module Secv
       # @discriminate # 词语辨析
     end
 
-    def self.from_list(list)
+    def self.from_db_ins(list)
       identify    = list[0]
       pronounce   = list[1]
       trans       = field_split_from list[2]
@@ -33,6 +33,20 @@ module Secv
                additional, word_groups, synonyms
     end
 
+    def as_db_ins
+      @trans        = @trans * SEPARATOR
+      @extra_trans  = @extra_trans * SEPARATOR
+      @word_groups  = @word_groups * SEPARATOR
+      @synonyms     = @synonyms * SEPARATOR
+    end
+
+    def dec_db_ins
+      @trans = @trans.split SEPARATOR
+      @extra_trans = @extra_trans.split SEPARATOR
+      @word_groups = @word_groups.split SEPARATOR
+      @synonyms =@synonyms.split SEPARATOR
+    end
+
     private
       def self.field_split_from(ele)
         return nil unless ele
@@ -42,7 +56,6 @@ module Secv
     def to_s
       "identify=#{identify}"
     end
-
 
   end
 end

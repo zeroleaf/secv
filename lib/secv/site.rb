@@ -8,14 +8,13 @@ module Secv
   class Site
 
     def query(word)
-      word.strip!
       return nil if word == nil || word.empty?
       page = download(query_url word)
       extract_word(page)
     end
 
     def download(url)
-      Nokogiri::HTML(open(url))
+      Nokogiri::HTML(open(URI::encode(url)))
     end
 
     protected

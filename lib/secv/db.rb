@@ -21,9 +21,11 @@ module Secv
     end
 
     def save_word(word)
+      word.as_db_ins
       @db.execute('INSERT INTO words VALUES (?, ?, ?, ?, ?, ?, ?)',
                   [word.identify, word.pronounce, word.trans, word.extra_trans,
                    word.additional, word.word_groups, word.synonyms])
+      word.dec_db_ins
     end
 
     # db.get_word 'good'    -> Word or nil
@@ -33,7 +35,7 @@ module Secv
     def get_word(identify)
       word = nil
       @db.execute('SELECT * FROM words where identify = ?', identify) do |row|
-        word = Word.from_list row
+        word = Word.from_db_ins row
       end
       word
     end

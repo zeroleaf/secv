@@ -16,7 +16,9 @@ module Secv
 
     def run
       while input = Readline.readline('> ', true)
-        result = query_word input.strip
+        input.strip!
+        next unless input
+        result = query_word input
         @render.render_word result
       end
       puts "\nBye!"
@@ -25,7 +27,9 @@ module Secv
     def query_word(input)
       result = @db.get_word input
       return result if result
-      @site.query input
+      word = @site.query input
+      @db.save_word word
+      word
     end
   end
 end
