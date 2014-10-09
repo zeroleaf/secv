@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 
-require_relative 'word'
+require 'secv/domain/word'
 
 module Secv
 
@@ -74,5 +74,4 @@ module Secv
         Word.new(identify, pronounce, trans, extra_trans, additional, word_groups, synonyms)
       end
   end
-
 end

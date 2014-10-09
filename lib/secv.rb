@@ -3,7 +3,7 @@ require 'readline'
 require 'secv/version'
 require 'secv/site'
 require 'secv/render'
-require 'secv/db'
+require 'secv/db_logic'
 
 module Secv
 
@@ -11,24 +11,24 @@ module Secv
     def initialize
       @site = YouDao.new
       @render = Render.new
-      @db = Db.new
+      @db_logic = DbLogic.new
     end
 
     def run
       while input = Readline.readline('> ', true)
         input.strip!
         next unless input
-        result = query_word input
+        result = query input
         @render.render_word result
       end
-      puts "\nBye!"
+      puts "\nBye"
     end
 
-    def query_word(input)
-      result = @db.get_word input
+    def query(input)
+      result = @db_logic.get_als_word input
       return result if result
       word = @site.query input
-      @db.save_word word
+      @db_logic.save_als_word input, word
       word
     end
   end

@@ -1,7 +1,5 @@
 require 'colored'
 
-require_relative 'word'
-
 module Secv
 
   class Render
