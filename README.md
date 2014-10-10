@@ -1,4 +1,4 @@
-# Secv
+# Secv [![Build Status](https://travis-ci.org/zeroleaf/secv.svg?branch=master)](https://travis-ci.org/zeroleaf/secv)
 
 TODO: Write a gem description
 
