@@ -4,6 +4,7 @@ require 'secv/version'
 require 'secv/site'
 require 'secv/render'
 require 'secv/db_logic'
+require 'secv/config'
 
 module Secv
 
@@ -11,7 +12,8 @@ module Secv
     def initialize
       @site = YouDao.new
       @render = Render.new
-      @db_logic = DbLogic.new
+      @config = Config.new ENV['cfg-path']
+      @db_logic = DbLogic.new @config
     end
 
     def run

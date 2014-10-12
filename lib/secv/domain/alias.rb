@@ -1,7 +1,7 @@
-require_relative 'sqlite'
+require_relative 'domain'
 
 class Alias
-  extend Sqlite
+  include Domain
 
   def initialize(a_from, a_to)
     @a_from = a_from  # string, unique
@@ -15,7 +15,7 @@ class Alias
 
     def find_alias(a_from)
       a_to = nil
-      self.execute(
+      Domain.execute(
           "SELECT a_to FROM #{self.table_name} WHERE a_from = ?", a_from) do |row|
         a_to = row[0]
       end
@@ -24,8 +24,12 @@ class Alias
   end
 
   def save
-    self.class.execute("INSERT INTO #{self.class.table_name} (a_from, a_to) VALUES (?, ?)",
+    Domain.execute("INSERT INTO #{self.class.table_name} (a_from, a_to) VALUES (?, ?)",
                        [@a_from, @a_to])
+  end
+
+  def to_s
+    "{a_from => '#{@a_from}', a_to => '#{@a_to}'}"
   end
 
 end

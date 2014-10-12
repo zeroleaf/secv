@@ -1,7 +1,7 @@
-require_relative 'sqlite'
+require_relative 'domain'
 
 class Word
-  extend Sqlite
+  include Domain
 
   SEP = '||'
 
@@ -29,7 +29,7 @@ class Word
 
     def find_by_identify(identify)
       word = nil
-      self.execute(
+      Domain.execute(
           "SELECT * FROM #{self.table_name} where identify = ?", [identify]) do |row|
         word = self.from_db_ins row
       end
@@ -55,7 +55,7 @@ class Word
   end
 
   def save
-    self.class.execute("INSERT INTO #{self.class.table_name} VALUES (?, ?, ?, ?, ?, ?, ?)",
+    Domain.execute("INSERT INTO #{self.class.table_name} VALUES (?, ?, ?, ?, ?, ?, ?)",
                        [@identify, @pronounce, @trans.join(SEP),
                         @extra_trans.join(SEP), @additional,
                         @word_groups.join(SEP), @synonyms.join(SEP)])

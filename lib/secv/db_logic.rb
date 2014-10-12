@@ -2,7 +2,13 @@ require 'secv/domain/word'
 require 'secv/domain/word_info'
 require 'secv/domain/alias'
 
+require 'secv/domain/domain'
+
 class DbLogic
+
+  def initialize(cfg)
+    Domain.init cfg
+  end
 
   def save_word(word)
     word.save

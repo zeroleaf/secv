@@ -1,0 +1,5 @@
+---
+database:
+  - sqlite
+  # If you want to use a specific sqlite database, then set following path to the file.
+#  - path:
